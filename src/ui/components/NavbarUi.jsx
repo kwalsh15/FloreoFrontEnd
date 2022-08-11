@@ -1,5 +1,5 @@
 import { Link, NavLink } from 'react-router-dom';
-import { GiShoppingCart } from 'react-icons/gi'
+import { ShoppingCart } from './ShoppingCart';
 
 export const NavbarUi = () => {
     return (
@@ -17,21 +17,21 @@ export const NavbarUi = () => {
                 <div className="navbar-nav">
 
                     <NavLink 
-                        className="nav-item nav-link" 
+                        className={ ({isActive}) => `nav-item nav-link ${ isActive ? 'active': ''}` } 
                         to="/home"
                     >
                         Home
                     </NavLink>
                     
                     <NavLink 
-                        className="nav-item nav-link" 
+                        className={ ({isActive}) => `nav-item nav-link ${ isActive ? 'active': ''}` } 
                         to="/gallery"
                     >
                         Gallery
                     </NavLink>
 
                     <NavLink 
-                        className="nav-item nav-link" 
+                        className={ ({isActive}) => `nav-item nav-link ${ isActive ? 'active': ''}` } 
                         to="/about"
                     >
                         About
@@ -41,22 +41,9 @@ export const NavbarUi = () => {
 
             <div className="navbar-collapse collapse w-100 order-3 dual-collapse2 d-flex justify-content-end">
                 <ul className="navbar-nav ml-auto" >
-                
-                <NavLink 
-                        className="nav-item nav-link" 
-                        to="/about"
-                    >
-                    <GiShoppingCart 
-                        size={ 30 }
-                    />
-                </NavLink>
-                    
-                    {/* <NavLink 
-                        className="nav-item nav-link" 
-                        to="/login"
-                    >
-                        Logout
-                    </NavLink> */}
+                    <i className="nav-item nav-link">
+                        <ShoppingCart className="nav-item nav-link"/>
+                    </i>                    
                 </ul>
             </div>
         </nav>

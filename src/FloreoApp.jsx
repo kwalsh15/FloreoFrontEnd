@@ -1,10 +1,9 @@
-
+import { AppRouter } from './router/AppRouter';
 
 export const FloreoApp = () => {
-  
     return (
-    <>
-        <h1>FloreoApp</h1>
-    </>
+
+        <AppRouter />
+      
   );
 }

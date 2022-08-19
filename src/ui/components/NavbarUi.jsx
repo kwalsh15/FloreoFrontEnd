@@ -42,7 +42,7 @@ export const NavbarUi = () => {
           </Nav>
           
           <Nav>
-            <Nav.Link className=''> 
+            <Nav.Link className='align-self-center'> 
               <ShoppingCart />
             </Nav.Link>
           </Nav>

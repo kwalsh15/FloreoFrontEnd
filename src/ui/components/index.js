@@ -3,3 +3,4 @@
 export * from './Footer';
 export * from './NavbarUi';
 export * from './ShoppingCart';
+export * from './imageCarousel/ImageCarousel';

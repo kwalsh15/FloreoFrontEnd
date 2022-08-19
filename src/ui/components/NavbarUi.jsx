@@ -1,51 +1,54 @@
 import { Link, NavLink } from 'react-router-dom';
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
 import { ShoppingCart } from './ShoppingCart';
 
+
+
 export const NavbarUi = () => {
-    return (
-  
-        <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
-            
-            <Link 
-                className="navbar-brand" 
-                to="/"
+  return (
+    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+      <Container>
+        <Navbar.Brand as={Link} to="/">Floreo</Navbar.Brand>
+        <Navbar.Toggle aria-controls="responsive-navbar-nav"/>
+        
+        <Navbar.Collapse id="responsive-navbar-nav">
+          
+          <Nav className="navbar-collapse justify-content-center">
+            <Nav.Link as={NavLink}
+                      to="/home"
+                      className={ ({isActive}) => `nav-item nav-link ${ isActive ? 'active': ''}` } 
             >
-                Floreo
-            </Link>
+              Home
+            </Nav.Link>
 
-            <div className="navbar-collapse w-100 justify-content-end">
-                <div className="navbar-nav">
+            <Nav.Link as={NavLink} 
+                      to="/gallery"
+                      className={ ({isActive}) => `nav-item nav-link ${ isActive ? 'active': ''}` } 
+            >
+              Gallery
+            </Nav.Link>
 
-                    <NavLink 
-                        className={ ({isActive}) => `nav-item nav-link ${ isActive ? 'active': ''}` } 
-                        to="/home"
-                    >
-                        Home
-                    </NavLink>
-                    
-                    <NavLink 
-                        className={ ({isActive}) => `nav-item nav-link ${ isActive ? 'active': ''}` } 
-                        to="/gallery"
-                    >
-                        Gallery
-                    </NavLink>
+            <Nav.Link as={NavLink} 
+                      to="about"
+                      className={ ({isActive}) => `nav-item nav-link ${ isActive ? 'active': ''}` }
+            >
+              About
+            </Nav.Link>
 
-                    <NavLink 
-                        className={ ({isActive}) => `nav-item nav-link ${ isActive ? 'active': ''}` } 
-                        to="/about"
-                    >
-                        About
-                    </NavLink>
-                </div>
-            </div>
 
-            <div className="navbar-collapse collapse w-100 order-3 dual-collapse2 d-flex justify-content-end">
-                <ul className="navbar-nav ml-auto" >
-                    <i className="nav-item nav-link">
-                        <ShoppingCart className="nav-item nav-link"/>
-                    </i>                    
-                </ul>
-            </div>
-        </nav>
-    );
+      
+          </Nav>
+          
+          <Nav>
+            <Nav.Link className=''> 
+              <ShoppingCart />
+            </Nav.Link>
+          </Nav>
+
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
+  );
 }

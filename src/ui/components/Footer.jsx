@@ -16,6 +16,7 @@ export const Footer = () => {
         <MDBFooter className='text-center' color='white' bgColor='dark'>
         <MDBContainer className='p-4'>
           <section className='mb-4'>
+
             <MDBBtn outline color="light" floating className='m-1' href='https://facebook.com' target="_blank" role='button'>
               <MDBIcon fab icon='facebook-f' />
             </MDBBtn>
@@ -23,15 +24,7 @@ export const Footer = () => {
             <MDBBtn outline color="light" floating className='m-1' href='https://instagram.com' target="_blank" role='button'>
               <MDBIcon fab icon='instagram' />
             </MDBBtn>
-  
-            <MDBBtn outline color="light" floating className='m-1' href='https://web.whatsapp.com' target="_blank" role='button'>
-              <MDBIcon fab icon='whatsapp' />
-            </MDBBtn>
-            <MDBBtn outline color="light" floating className='m-1' href='https://tiktok.com' target="_blank" role='button'>
-              <MDBIcon fab>
-                    <FaTiktok />
-                </MDBIcon>
-            </MDBBtn>
+
           </section>
   
           <section className=''>
@@ -39,17 +32,17 @@ export const Footer = () => {
               <MDBRow className='d-flex justify-content-center'>
                 <MDBCol size="auto">
                   <p className='pt-2'>
-                    <strong>Sign up for our newsletter</strong>
+                    <strong>Ingresa tu correo electrónico: </strong>
                   </p>
                 </MDBCol>
   
                 <MDBCol md='5' start='12'>
-                  <MDBInput contrast type='email' label='Email address' className='mb-4' />
+                  <MDBInput contrast type='email' label='Correo electrónico' className='mb-4' />
                 </MDBCol>
   
                 <MDBCol size="auto">
                   <MDBBtn outline color='light' type='submit' className='mb-4'>
-                    Subscribe
+                    Subscribirme
                   </MDBBtn>
                 </MDBCol>
               </MDBRow>

@@ -1,3 +1,2 @@
 export * from './HomePage';
-export * from './GalleryPage';
-export * from './AboutPage';
+export * from './ServicePage';

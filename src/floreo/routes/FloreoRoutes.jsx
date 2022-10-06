@@ -1,6 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { ImageCarousel, NavbarUi } from '../../ui/components';
-import { HomePage, GalleryPage, AboutPage } from '../';
+import { HomePage, ServicePage } from '../';
 import { Footer } from '../../ui/components/Footer';
 
 export const FloreoRoutes = () => {
@@ -15,11 +15,9 @@ export const FloreoRoutes = () => {
             
                 <Route path="home" element={<HomePage /> }/>
 
-                <Route path="gallery" element={<GalleryPage /> }/>
-                <Route path="about" element={<AboutPage /> }/>
+                <Route path="category/:service/" element= {<ServicePage />}/>
 
-
-                <Route path="/" element={<Navigate to="/home" />} />
+                <Route path="/*" element={<Navigate to="/home" />} />
             
             </Routes>
 

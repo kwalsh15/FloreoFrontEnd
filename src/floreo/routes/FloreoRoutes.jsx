@@ -2,8 +2,12 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { ImageCarousel, NavbarUi } from '../../ui/components';
 import { HomePage, ServicePage } from '../';
 import { Footer } from '../../ui/components/Footer';
+import { useLoadingInformation } from '../../hooks/useLoadingInformation';
 
 export const FloreoRoutes = () => {
+
+    useLoadingInformation(); // Se carga la info del about
+
     
     return (
         <>

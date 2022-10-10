@@ -10,7 +10,8 @@ export const ShoppingCart = () => {
         <>  
            <GiShoppingCart
                 onClick={handleShop} 
-                size={ 30 }
+                size={ 35 }
+                color={ 'white' }
             /> 
         </>
     );

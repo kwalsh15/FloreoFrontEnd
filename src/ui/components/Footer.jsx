@@ -1,3 +1,8 @@
+import { useSelector } from "react-redux";
+import { useState } from "react";
+import { setCollectionData } from "../../helpers/setCollectionData";
+import { Subscription } from "./Subscription";
+import Swal from 'sweetalert2';
 import {
   MDBFooter,
   MDBContainer,
@@ -7,10 +12,19 @@ import {
   MDBRow,
   MDBBtn,
 } from "mdb-react-ui-kit";
-import { useSelector } from "react-redux";
 
 export const Footer = () => {
   const { active: aboutInformation } = useSelector((state) => state.section);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const handleNameChange = (e) => setName(e.target.value);
+  const handleEmailChange = (e) => setEmail(e.target.value);
+
+  const handleForm = (ev) => {
+    ev.preventDefault();
+    setCollectionData('Suscriptores', {nombre: name, email});
+    Swal.fire('Subscripción exitosa', 'Te has subscribido al boletín informativo de Pupilos', 'success');
+  };
 
   return (
     <MDBFooter className="text-center" color="white" bgColor="dark">
@@ -41,32 +55,7 @@ export const Footer = () => {
           </MDBBtn>
         </section>
 
-        <section className="">
-          <form action="">
-            <MDBRow className="d-flex justify-content-center">
-              <MDBCol size="auto">
-                <p className="pt-2">
-                  <strong>Ingresa tu correo electrónico: </strong>
-                </p>
-              </MDBCol>
-
-              <MDBCol md="5" start="12">
-                <MDBInput
-                  contrast
-                  type="email"
-                  label="Correo electrónico"
-                  className="mb-4"
-                />
-              </MDBCol>
-
-              <MDBCol size="auto">
-                <MDBBtn outline color="light" type="submit" className="mb-4">
-                  Subscribirme
-                </MDBBtn>
-              </MDBCol>
-            </MDBRow>
-          </form>
-        </section>
+        <Subscription />
 
         <section className="d-flex align-items-center justify-content-center">
           <p>Contacto:</p>

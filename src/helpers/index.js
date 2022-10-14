@@ -1,1 +1,1 @@
-export * from './loadingSection';
+export * from './getCollectionData';

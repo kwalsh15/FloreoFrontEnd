@@ -3,16 +3,8 @@ import { useDispatch } from 'react-redux';
 import { startLoadingSection } from '../store/about';
 
 export const useLoadingInformation = () => {
-
-    const dispatch = useDispatch();
-
-
-    useEffect(() => {
-
-        dispatch( startLoadingSection() )
-      
-    }, [])
-    
-
+	const dispatch = useDispatch();
+	useEffect(() => {
+		dispatch(startLoadingSection())
+	}, [])
 }
-

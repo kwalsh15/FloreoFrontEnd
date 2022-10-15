@@ -3,30 +3,34 @@ import { ImageCarousel, NavbarUi } from '../../ui/components';
 import { HomePage, ServicePage } from '../';
 import { Footer } from '../../ui/components/Footer';
 import { useLoadingInformation } from '../../hooks/useLoadingInformation';
+import { useLoadingImageCarousel } from '../../hooks/useLoadingImageCarousel';
+import { useLoadingSubscribers } from '../../hooks/useLoadingSubscribers';
+import { useSelector } from 'react-redux';
 
 export const FloreoRoutes = () => {
 
-    useLoadingInformation(); // Se carga la info del about
+	useLoadingInformation(); // Se carga la info del about
+	useLoadingImageCarousel();
+	useLoadingSubscribers();
 
-    
-    return (
-        <>
-            <NavbarUi />
-            <ImageCarousel images={['https://images.ctfassets.net/hrltx12pl8hq/7yQR5uJhwEkRfjwMFJ7bUK/dc52a0913e8ff8b5c276177890eb0129/offset_comp_772626-opt.jpg?fit=fill&w=800&h=300', 'https://unsplash.it/2000/1250?image=689']} />
+	const { images } = useSelector((state) => state.imageCarousel);
 
-            
-            <Routes>
-            
-                <Route path="home" element={<HomePage /> }/>
-
-                <Route path="category/:service/" element= {<ServicePage />}/>
-
-                <Route path="/*" element={<Navigate to="/home" />} />
-            
-            </Routes>
-
-            <Footer />
-
-        </>
-    );
+	return (
+		<>
+			<NavbarUi />
+			{ images.length > 0 ? <ImageCarousel images={images} /> :
+				<div style={{height: '50vh'}} className="d-flex flex-column justify-content-center align-items-center">
+					<div className="spinner-border" role="status">
+						<span className="visually-hidden">Loading...</span>
+					</div>
+				</div>
+			}
+			<Routes>
+				<Route path="home" element={<HomePage />} />
+				<Route path="category/:service/" element={<ServicePage />} />
+				<Route path="/*" element={<Navigate to="/home" />} />
+			</Routes>
+			<Footer />
+		</>
+	);
 }

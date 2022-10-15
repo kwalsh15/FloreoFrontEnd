@@ -12,8 +12,8 @@ export const ImageCarousel = ({images}) => {
     <MDBCarousel showControls>
       <MDBCarouselInner>
         {images.map((image, index) =>
-          <MDBCarouselItem className={`carousel-item ${index == 0 ? '' : 'active'}`} key={image}>
-            <MDBCarouselElement className={'carousel__img'} src={image} />
+          <MDBCarouselItem className={`carousel-item ${index == 0 ? 'active' : ''}`} key={image}>
+            <MDBCarouselElement className={'carousel_img'} src={image} />
           </MDBCarouselItem>
         )}
       </MDBCarouselInner>

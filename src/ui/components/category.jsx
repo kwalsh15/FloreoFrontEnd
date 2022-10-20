@@ -9,7 +9,7 @@ export const Category = ({ data }) => {
           <img src={img} style={{ 'width': '100%' }} />
           <div className="mask" style={{ 'backgroundColor': 'rgba(0, 0, 0, 0.6)' }}>
             <div className="text">
-              <h1>{id}</h1>
+              <h3>{id}</h3>
             </div>
           </div>
         </div>

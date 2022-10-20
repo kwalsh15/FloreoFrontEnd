@@ -16,9 +16,9 @@ export const NavbarUi = () => {
   // d-flex w-auto mb-3"
 
   return (
-    <MDBNavbar expand="lg" dark bgColor="dark">
+    <MDBNavbar expand="lg" dark bgColor="black">
       <div className="w-100 d-flex justify-content-center">
-        <MDBTypography tag='h3'>{aboutInformation?.Nombre}</MDBTypography>  
+        <MDBTypography color='white' tag='h3'>{aboutInformation?.Nombre}</MDBTypography>  
       </div>
       {/* <MDBNavbarBrand className="w-100 d-flex justify-content-cente">Navbar</MDBNavbarBrand> */}
       {/* <MDBNavbarLink className="ml-auto">

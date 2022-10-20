@@ -1,17 +1,19 @@
+import { Footer } from '../../ui/components/Footer';
+import { useSelector } from 'react-redux';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { ImageCarousel, NavbarUi } from '../../ui/components';
-import { HomePage, ServicePage } from '../';
-import { Footer } from '../../ui/components/Footer';
+import { CategoriesPage, ServicePage } from '../';
 import { useLoadingInformation } from '../../hooks/useLoadingInformation';
 import { useLoadingImageCarousel } from '../../hooks/useLoadingImageCarousel';
 import { useLoadingSubscribers } from '../../hooks/useLoadingSubscribers';
-import { useSelector } from 'react-redux';
+import { useLoadingCategories } from "../../hooks/useLoadingCategories";
 
 export const FloreoRoutes = () => {
 
 	useLoadingInformation(); // Se carga la info del about
 	useLoadingImageCarousel();
 	useLoadingSubscribers();
+	useLoadingCategories();
 
 	const { images } = useSelector((state) => state.imageCarousel);
 
@@ -26,7 +28,7 @@ export const FloreoRoutes = () => {
 				</div>
 			}
 			<Routes>
-				<Route path="home" element={<HomePage />} />
+				<Route path="home" element={<CategoriesPage />} />
 				<Route path="category/:service/" element={<ServicePage />} />
 				<Route path="/*" element={<Navigate to="/home" />} />
 			</Routes>

@@ -20,7 +20,6 @@ export const Subscription = () => {
   });
 
   const onChange = (e) => {
-    console.log(e.target.name);
     setFormValue({ ...formValue, [e.target.name]: e.target.value });
   };
 
@@ -31,8 +30,11 @@ export const Subscription = () => {
   const isEmailUnique = (email) => {
     const lowerCaseEmail = email.toLowerCase();
     for (let index = 0; index < subscribers.length; index++) {
-      const subscriber = subscribers[index];
-      if (subscriber.email.toLowerCase() === lowerCaseEmail) return false;
+      const subscriber = subscribers[index];      
+      if (subscriber.email.toLowerCase() === lowerCaseEmail) {
+        console.log(subscriber);
+        return false;
+      }
     }
     return true;
   }
@@ -55,6 +57,7 @@ const handleForm = (ev) => {
   const newSubscriber = { nombre: formValue.name, email: formValue.email }
   setCollectionData('Suscriptores', newSubscriber);
   dispatch(setSubscribers([...subscribers, newSubscriber]));
+  // formValue = {name: '', email: ''};  
   Swal.fire('Subscripción exitosa', 'Te has subscribido al boletín informativo de Pupilos', 'success');
 };
 

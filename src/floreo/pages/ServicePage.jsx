@@ -1,7 +1,10 @@
 
+import { Link, useLocation } from 'react-router-dom';
+
 export const ServicePage = () => {
-    
-    return (
-        <h1>ServicePage</h1>
-    );
+  const location = useLocation();
+
+  return (
+    <h1>ServicePage</h1>
+  );
 }

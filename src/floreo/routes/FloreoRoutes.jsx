@@ -29,7 +29,7 @@ export const FloreoRoutes = () => {
 			}
 			<Routes>
 				<Route path="home" element={<CategoriesPage />} />
-				<Route path="category/:service/" element={<ServicePage />} />
+				<Route path="home/category/services/" element={<ServicePage />} />
 				<Route path="/*" element={<Navigate to="/home" />} />
 			</Routes>
 			<Footer />

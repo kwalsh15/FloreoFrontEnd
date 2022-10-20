@@ -103,37 +103,6 @@ return (
         </MDBCol>
       </MDBValidation>
     </MDBRow>
-
-    {/* <MDBRow className="d-flex justify-content-center">
-
-          <MDBCol md="5" start="6">
-            <MDBInput
-              contrast
-              label="Nombre y Apellidos"
-              className="mb-4"
-              required
-              onChange={handleNameChange}
-            />
-          </MDBCol>
-
-          <MDBCol md="4" start="0">
-            <MDBInput
-              contrast
-              type="email"
-              label="Correo electrónico"
-              className="mb-4"
-              required
-              onChange={handleEmailChange}
-            />
-          </MDBCol>
-
-          <MDBCol size="auto">
-            <MDBBtn outline color="light" type="submit" className="mb-4">
-              Subscribirme
-            </MDBBtn>
-          </MDBCol>
-        </MDBRow> */}
-    {/* </form> */}
   </>
 );
 };

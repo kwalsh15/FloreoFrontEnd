@@ -1,0 +1,82 @@
+.modalContainer {
+    width: 100%;
+    height: 500px;
+    border-radius: 12px;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    display: flex;
+    flex-direction: column;
+    padding: 1%;
+    margin-top: 1.5%;
+}
+
+.modalContainer .title {
+    margin-bottom: 10px;
+    display: inline-block;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.7);
+}
+
+.titleCloseButtom {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.titleCloseButtom button {
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.modalContainer .body {
+    flex: 50%;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+    color: rgba(0, 0, 0, 0.6);
+    text-align: center;
+}
+
+.modalContainer .footer {
+    flex: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modalContainer .body img {
+    width:100px;
+    height: 100px;
+    border-radius:150px;
+    border:4px solid rgba(0, 0, 0, 0.7);
+    overflow: hidden;
+    align-items: center;
+}
+
+.developer {
+    width:135px;
+    margin: 50px;
+    color: rgba(0, 0, 0, 0.6);
+    display:block;
+    align-items: center;
+}
+
+.upper {
+    width:100%;
+    height: 160px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    margin-bottom: 30px;
+}
+
+.lower {
+    width:100%;
+    height: 160px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+}
+

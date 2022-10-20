@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import { useState } from "react";
 import { setCollectionData } from "../../helpers/setCollectionData";
 import { Subscription } from "./Subscription";
+import { DevelopersInfo } from "./developersInfo/DevelopersInfo";
 import Swal from 'sweetalert2';
 import {
   MDBFooter,
@@ -19,6 +20,8 @@ export const Footer = () => {
   const [email, setEmail] = useState('');
   const handleNameChange = (e) => setName(e.target.value);
   const handleEmailChange = (e) => setEmail(e.target.value);
+  const [openDevelopersModal, setOpenDevModal] = useState(false)
+
 
   const handleForm = (ev) => {
     ev.preventDefault();
@@ -53,6 +56,20 @@ export const Footer = () => {
           >
             <MDBIcon fab icon="instagram" />
           </MDBBtn>
+
+          <MDBBtn
+            outline
+            color="light"
+            floating
+            className="m-1"
+            onClick={() => {
+              setOpenDevModal(true)
+            }}
+            role="button"
+          >
+            <MDBIcon fas icon="info" />
+          </MDBBtn>
+          {openDevelopersModal && <DevelopersInfo closeDevelopersModal={setOpenDevModal}/>}
         </section>
 
         <Subscription />

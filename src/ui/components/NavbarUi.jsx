@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 //import { useState } from "react";
 import { TbShoppingCart } from 'react-icons/tb';
+import { HiOutlineUserGroup } from "react-icons/hi";
 import { cartUiActions } from "../../store/shoppingCart/index";
 
 import ShoppingCart from "./shoppingCart/ShoppingCart";
@@ -33,6 +34,22 @@ export const NavbarUi = () => {
 
   return (
     <MDBNavbar expand="lg" dark bgColor="black">
+      <div className="navbar-collapse collapse">
+        <i className="nav-item nav-link">
+          <HiOutlineUserGroup
+            style={{
+              position: "relative",
+              left: "60px",
+              width: "30",
+              height: "30",
+              color: "white",
+              cursor: "pointer"
+            }}
+            onClick={() => console.log("Click en miembros")}
+          />
+        </i>
+      </div>
+
       <div className="w-100 d-flex justify-content-center">
         <MDBTypography color='white' tag='h3'>{aboutInformation?.Nombre}</MDBTypography>  
       </div>

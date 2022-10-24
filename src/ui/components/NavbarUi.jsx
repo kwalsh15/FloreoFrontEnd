@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { TbShoppingCart } from 'react-icons/tb';
 import { cartUiActions } from "../../store/shoppingCart/index";
 
-import ShoppingCart from "./ShoppingCart/ShoppingCart";
+import ShoppingCart from "./shoppingCart/ShoppingCart";
 import "./header.css";
 
 import {

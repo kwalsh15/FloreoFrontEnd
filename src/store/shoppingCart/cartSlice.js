@@ -27,28 +27,30 @@ const initialState = {
   totalAmount: totalAmount,
 };
 
+let arr = [];
+
 export const cartSlice = createSlice({
   name: "cart",
   initialState,
 
   reducers: {
-    // =========== add service ============
+    //== add service ==
     addItem(state, action) {
       const newItem = action.payload;
+
+      arr.push(newItem.id);
 
       state.totalQuantity++;
 
       state.cartItems.push({
-        id: newItem.id,
+        id: arr.length - 1,
         nombre: newItem.nombre,
         precio: newItem.precio,
         totalPrice: newItem.precio,
       });
 
       state.totalAmount = state.cartItems.reduce(
-        (total, item) => total + Number(item.precio),
-
-        0
+        (total, item) => total + Number(item.precio), 0
       );
 
       setItemFunc(
@@ -57,7 +59,23 @@ export const cartSlice = createSlice({
         state.totalQuantity
       );
     },
+  
+    //== delete service ==
+    deleteItem(state, action) {
+      const id = action.payload;
+      state.cartItems = state.cartItems.filter((item) => item.id !== id);
+      state.totalQuantity = state.totalQuantity - 1;
 
+      state.totalAmount = state.cartItems.reduce(
+        (total, item) => total + Number(item.precio), 0
+      );
+
+      setItemFunc(
+        state.cartItems.map((item) => item),
+        state.totalAmount,
+        state.totalQuantity
+      );
+    },
   },
 });
 

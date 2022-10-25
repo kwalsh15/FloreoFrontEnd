@@ -1,13 +1,14 @@
 import { Footer } from '../../ui/components/Footer';
 import { useSelector } from 'react-redux';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { ImageCarousel, NavbarUi } from '../../ui/components';
+import { ImageCarousel } from '../../ui/components';
 import { CategoriesPage, ServicePage } from '../';
 import { useLoadingInformation } from '../../hooks/useLoadingInformation';
 import { useLoadingImageCarousel } from '../../hooks/useLoadingImageCarousel';
 import { useLoadingSubscribers } from '../../hooks/useLoadingSubscribers';
 import { useLoadingCategories } from "../../hooks/useLoadingCategories";
 import { useLoadingServices } from '../../hooks/useLoadingServices';
+import { useLoadingMembers } from '../../hooks/useLoadingMembers';
 
 export const FloreoRoutes = () => {
 
@@ -16,12 +17,12 @@ export const FloreoRoutes = () => {
 	useLoadingSubscribers();
 	useLoadingCategories();
 	useLoadingServices();
+	useLoadingMembers();
 
 	const { images } = useSelector((state) => state.imageCarousel);
 
 	return (
 		<>
-			<NavbarUi />
 			{images.length > 0 ? <ImageCarousel images={images} /> :
 				<div style={{ height: '50vh' }} className="d-flex flex-column justify-content-center align-items-center">
 					<div className="spinner-border" role="status">

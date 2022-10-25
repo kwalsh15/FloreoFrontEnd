@@ -35,7 +35,7 @@
 }
 .cart__item-list {
   height: calc(100vh - 140px);
-  color: rgb(27, 20, 20);
+  color: rgb(0, 0, 0);
   overflow-y: scroll;
 }
 
@@ -74,7 +74,7 @@
 .cart__details button {
   border: none;
   padding: 4px 20px;
-  border-radius: 5px;
+  border-radius: 0px;
   background: #fff;
   color: #000000;
 }
@@ -85,12 +85,17 @@
 }
 
 .center {
-  margin-top: 45%;
+  margin-top:45%;
   text-align: center;
   display: block;
   margin-left: auto;
   margin-right: auto;
-  height: 38%;
+  height:150pt;
+  width: 150pt;
+}
+
+.center__text {
+  text-align: center;
 }
 
 @media only screen and (max-width: 576px) {

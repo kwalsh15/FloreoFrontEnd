@@ -1,8 +1,10 @@
 import { MDBTypography } from "mdb-react-ui-kit";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { cartActions } from "../../../store/shoppingCart/index";
 
 export const Service = ({ data }) => {
   const { services } = useSelector((state) => state.services);
+  const dispatch = useDispatch();
   const newServices = [];
   const { id, img } = data;
 
@@ -11,6 +13,16 @@ export const Service = ({ data }) => {
       newServices.push(element);
     }
   });
+
+  const addToCart = (id, nombre, precio) => {
+    dispatch(
+      cartActions.addItem({
+        id,
+        nombre,
+        precio,
+      })
+    );
+  };
 
   return (
     <>
@@ -28,7 +40,10 @@ export const Service = ({ data }) => {
                   </small>
                 </p>
                 <br />
-                <a style={{ background: 'black', float: 'right' }} href="#" className="btn btn-primary">Añadir</a>
+                <button style={{ background: 'black', float: 'right' }} className="btn btn-primary"
+                  onClick={() => { addToCart(service.id, service.nombre, service.precio) }}>
+                  Añadir al carrito
+                </button>
               </div>
             </div>
           </div>

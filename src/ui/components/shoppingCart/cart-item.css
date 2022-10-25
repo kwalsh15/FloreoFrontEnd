@@ -16,7 +16,7 @@
 .cart__product-price span {
   font-size: 0.9rem;
   font-weight: 600;
-  color: #df2020;
+  color: #000000;
 }
 
 .increase__decrease-btn {
@@ -31,6 +31,7 @@
 }
 
 .delete__btn {
+  color: #B30000;
   font-size: 1.1rem;
   font-weight: 600;
 }

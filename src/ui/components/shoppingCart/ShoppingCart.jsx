@@ -3,8 +3,7 @@ import { ListGroup } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import CartItem from "./CartItem";
 import "./shopping-cart.css";
-import { FaTimes } from 'react-icons/Fa';
-
+import { MDBIcon, MDBBtn } from "mdb-react-ui-kit";
 import { cartUiActions } from "../../../store/shoppingCart/index";
 import { EmptyCartImg } from "../assets"
 
@@ -19,16 +18,20 @@ const ShoppingCart = () => {
 
     return (
         <div className="cart__container">
-            <ListGroup className="cart">
+            <div className="cart">
                 <div className="cart__close">
-                    <FaTimes 
+                    <MDBBtn
+                        outline
+                        floating
                         color="dark"
                         role="button"
                         onClick={toggleCart}
-                    />
+                    >
+                        <MDBIcon fas icon="times" />
+                    </MDBBtn>
                 </div>
 
-                <div className="cart__item-list">
+                <ul className="cart__item-list list-group list-group-flush">
                     {cartProducts.length === 0 ? (
                         <span className="center">
                             <h5>El carrito está vacío</h5>
@@ -38,22 +41,21 @@ const ShoppingCart = () => {
                         cartProducts.map((item, index) => (
                         <CartItem item={item} key={index} />
                         ))
-                    )}
-                    
-                </div>  
+                    )}                   
+                </ul>
                                     
                 <div className="cart__subtotal">
-                    <h5>
-                        Subtotal: <span>₡{totalAmount}</span>
-                    </h5>
+                    <h5>Subtotal: ₡ {totalAmount}</h5>
                 </div>
                 
-                <div className="cart__details">
-                    <button>
-                        Checkout
+                <div>
+                    <button type="button" className="btn btn-dark btn-lg btn-block" bgcolor="dark">
+                    
+                    Detalles de la Orden
+                
                     </button>
                 </div>
-            </ListGroup>
+            </div>
         </div>
     );
 }

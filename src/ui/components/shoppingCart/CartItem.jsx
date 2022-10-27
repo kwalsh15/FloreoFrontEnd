@@ -16,32 +16,23 @@ const CartItem = ({ item }) => {
     dispatch(cartActions.deleteItem(id));
   };
   
-  
   return (
-    <ListGroupItem className="border-0 cart__item">
-      <div className="cart__item-info d-flex gap-2">
-
-        <div className="cart__product-info w-100 d-flex align-items-center gap-4 justify-content-between">
-          <div>
-            <h6 className="cart__product-title">{nombre}</h6>
-            <p className=" d-flex align-items-center gap-5 cart__product-price">
-              <span>₡{totalPrice}</span>
+    <li className="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+        <div>
+            <h5 className="mb-1">{nombre}</h5>
+            <p className=" d-flex align-items-center gap-5">
+              <span className="mb-1">₡ {totalPrice}</span>
             </p>
-            
-          </div>
-          <span className="delete__btn">
-            <HiOutlineTrash 
-              role="button"
-              size="23"
-              onClick={deleteItem}
-            />
-              
-
-          </span>
-
         </div>
-      </div>
-    </ListGroupItem>
+        <span>
+          <HiOutlineTrash 
+            color="B30000"
+            role="button"
+            size="24"
+            onClick={deleteItem}
+          />
+        </span>
+      </li>
   );
 };
 

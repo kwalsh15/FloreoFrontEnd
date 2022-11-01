@@ -14,7 +14,7 @@ const ShoppingCart = () => {
 
     const toggleCart = () => {
         dispatch(cartUiActions.toggle());
-      };
+    };
 
     return (
         <div className="cart__container">
@@ -30,30 +30,34 @@ const ShoppingCart = () => {
                         <MDBIcon fas icon="times" />
                     </MDBBtn>
                 </div>
-
+                
                 <ul className="cart__item-list list-group list-group-flush">
                     {cartProducts.length === 0 ? (
                         <span className="center">
-                            <h5>El carrito está vacío</h5>
+                            <h5 id="prueba">Su carrito está vacío</h5>
                             <img src={EmptyCartImg} alt='carrito vacío'/>
                         </span>
                     ) : (
                         cartProducts.map((item, index) => (
-                        <CartItem item={item} key={index} />
+                            <CartItem item={item} key={index} />
                         ))
-                    )}                   
+                    )}                    
                 </ul>
                                     
-                <div className="cart__subtotal">
-                    <h5>Subtotal: ₡ {totalAmount}</h5>
-                </div>
-                
-                <div>
-                    <button type="button" className="btn btn-dark btn-lg btn-block" bgcolor="dark">
-                    
-                    Detalles de la Orden
-                
-                    </button>
+                <div className="cart__details">
+                    <div className="cart__subtotal">
+                        <p>Subtotal: ₡{totalAmount}</p>
+                    </div>
+
+                    {cartProducts.length === 0 ? (
+                        <button type="button" className="cart__checkout btn-dark" disabled>
+                            <h5>Detalles de la Orden</h5>
+                        </button>
+                    ) : (
+                        <button type="button" className="cart__checkout btn-dark">
+                            <h5>Detalles de la Orden</h5>
+                        </button>
+                    )}  
                 </div>
             </div>
         </div>

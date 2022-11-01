@@ -24,6 +24,14 @@
   border-bottom: 1px solid #fde4e4;
 }
 
+.centrao{
+  display:flex;
+  align-items:center;
+  vertical-align: middle;
+  justify-content:flex-end;
+
+}
+
 @media only screen and (max-width: 576px) {
   .delete__btn {
     font-size: 1rem;

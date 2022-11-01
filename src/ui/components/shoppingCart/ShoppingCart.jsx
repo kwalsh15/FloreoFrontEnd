@@ -6,6 +6,7 @@ import "./shopping-cart.css";
 import { MDBIcon, MDBBtn } from "mdb-react-ui-kit";
 import { cartUiActions } from "../../../store/shoppingCart/index";
 import { EmptyCartImg } from "../assets"
+import { Checkout } from "../checkout/Checkout";
 
 const ShoppingCart = () => {
     const dispatch = useDispatch();
@@ -54,10 +55,11 @@ const ShoppingCart = () => {
                             <h5>Detalles de la Orden</h5>
                         </button>
                     ) : (
-                        <button type="button" className="cart__checkout btn-dark">
+                        <button type="button" className="cart__checkout btn-dark" data-toggle="modal" data-target="#checkoutModal">
                             <h5>Detalles de la Orden</h5>
                         </button>
-                    )}  
+                    )}
+                     <Checkout/>
                 </div>
             </div>
         </div>

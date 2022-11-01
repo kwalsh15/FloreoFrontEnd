@@ -76,6 +76,19 @@ export const cartSlice = createSlice({
         state.totalQuantity
       );
     },
+
+    deleteCart(state){
+      state.cartItems = state.cartItems.filter((item) => arr.includes(item.id));
+      arr =[];
+      state.totalQuantity = 0;
+      state.totalAmount = 0;
+
+      setItemFunc(
+        state.cartItems.map((item) => item),
+        state.totalAmount,
+        state.totalQuantity
+      );
+    },
   },
 });
 

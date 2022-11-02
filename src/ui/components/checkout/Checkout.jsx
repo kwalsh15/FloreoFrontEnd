@@ -1,8 +1,38 @@
 import React from "react";
-import { MDBIcon, MDBBtn } from "mdb-react-ui-kit";
+import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { cartActions } from "../../../store/shoppingCart/index";
+import {
+  MDBIcon,
+  MDBInput,
+  MDBCol,
+  MDBRow,
+  MDBBtn,
+  MDBValidation,
+  MDBValidationItem,
+} from "mdb-react-ui-kit";
+
 import "./checkout.css";
 
 export const Checkout = () => {
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cart.cartItems);
+  const totalAmount = useSelector((state) => state.cart.totalAmount);
+
+  const deleteCart = () => {
+    dispatch(cartActions.deleteCart());
+  };
+
+  const [formValue, setFormValue] = useState({
+    name: "",
+    phone: "",
+    location: "",
+  });
+
+  const onChange = (e) => {
+    setFormValue({ ...formValue, [e.target.name]: e.target.value });
+  };
+
   return (
     <div
       className="modal fade"
@@ -38,54 +68,94 @@ export const Checkout = () => {
 
           <div className="modal-body">
             {/* Location */}
-            <form>
-              <div className="form-group">
-                <label>Provincia</label>
-                <input
-                  className="form-control"
-                  type="text"
-                  placeholder="Provincia"
-                ></input>
-              </div>
-              <div className="form-group">
-                <label>Cantón</label>
-                <input
-                  className="form-control"
-                  type="text"
-                  placeholder="Cantón"
-                ></input>
-              </div>
-              <div className="form-group">
-                <label>Distrito</label>
-                <input
-                  className="form-control"
-                  type="text"
-                  placeholder="Distrito"
-                ></input>
-              </div>
-            </form>
-            {/* Personal Info */}
-            <form>
-              <div className="row">
-                <div className="col">
-                  <label>Nombre</label>
-                  <input
-                    type="text"
+            <MDBRow
+              className="d-flex justify-content-center"
+              style={{ marginBottom: "10px" }}
+            >
+              <MDBValidation className="row g-3">
+                <MDBValidationItem feedback="Este campo es requerido" invalid>
+                  <MDBInput
+                    name="location"
                     className="form-control"
-                    placeholder="Nombre"
+                    label="Provincia"
+                    required
+                    value={formValue.location}
+                    onChange={onChange}
                   />
-                </div>
-                <div className="col">
-                  <label>Teléfono</label>
-                  <input
-                    type="text"
+                </MDBValidationItem>
+
+                <MDBValidationItem feedback="Este campo es requerido" invalid>
+                  <MDBInput
+                    name="location"
                     className="form-control"
-                    placeholder="Teléfono"
+                    label="Cantón"
+                    required
+                    value={formValue.location}
+                    onChange={onChange}
                   />
-                </div>
-              </div>
-            </form>
+                </MDBValidationItem>
+
+                <MDBValidationItem feedback="Este campo es requerido" invalid>
+                  <MDBInput
+                    name="location"
+                    className="form-control"
+                    label="Distrito"
+                    required
+                    value={formValue.location}
+                    onChange={onChange}
+                  />
+                </MDBValidationItem>
+
+                {/* Personal Info */}
+                <MDBCol>
+                  <MDBValidationItem feedback="Este campo es requerido" invalid>
+                    <MDBInput
+                      name="name"
+                      className="form-control"
+                      label="Nombre"
+                      required
+                      value={formValue.name}
+                      onChange={onChange}
+                    />
+                  </MDBValidationItem>
+                </MDBCol>
+
+                <MDBCol>
+                  <MDBValidationItem feedback="Este campo es requerido" invalid>
+                    <MDBInput
+                      name="phone"
+                      className="form-control"
+                      label="Teléfono"
+                      required
+                      value={formValue.phone}
+                      onChange={onChange}
+                    />
+                  </MDBValidationItem>
+                </MDBCol>
+              </MDBValidation>
+            </MDBRow>
+
+            {/* Items */}
+            <div className="items">
+              <h5>Servicios solicitados</h5>
+              <ul className="list-group list-group-flush">
+                <li className="list-group-item">
+                  {cartItems.map((item) => (
+                    <Tr item={item} key={item.id} />
+                  ))}
+                </li>
+                <li className="list-group-item">
+                  <div className="d-flex justify-content-between align-items-center">
+                    <b>Total a pagar:</b>
+                    <b>
+                      <span>₡{totalAmount}</span>
+                    </b>
+                  </div>
+                </li>
+              </ul>
+            </div>
           </div>
+
           {/* Footer buttons */}
           <div className="modal-footer">
             <button
@@ -95,12 +165,29 @@ export const Checkout = () => {
             >
               Cancelar
             </button>
-            <button type="button" className="btn btn-outline-success">
+            <button
+              type="button"
+              className="btn btn-outline-success"
+              onClick={deleteCart}
+            >
               Ordenar Por WhatsApp
             </button>
           </div>
         </div>
       </div>
+    </div>
+  );
+};
+
+const Tr = (props) => {
+  const { nombre, totalPrice } = props.item;
+
+  return (
+    <div>
+      <span className="d-flex justify-content-between align-items-center">
+        {nombre}
+        <span>₡{totalPrice}</span>
+      </span>
     </div>
   );
 };

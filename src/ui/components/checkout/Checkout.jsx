@@ -1,7 +1,14 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { cartActions } from "../../../store/shoppingCart/index";
+import { cartUiActions } from "../../../store/shoppingCart/index";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { registerLocale, setDefaultLocale } from "react-datepicker";
+import es from "date-fns/locale/es";
+import { subDays } from "date-fns";
+import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
 import {
   MDBIcon,
   MDBInput,
@@ -15,6 +22,7 @@ import {
 import "./checkout.css";
 
 export const Checkout = () => {
+  const position = [10.32322207586839, -84.43113439600504];
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.cartItems);
   const totalAmount = useSelector((state) => state.cart.totalAmount);
@@ -26,7 +34,9 @@ export const Checkout = () => {
   const [formValue, setFormValue] = useState({
     name: "",
     phone: "",
-    location: "",
+    provincia: "",
+    canton: "",
+    distrito: "",
   });
 
   const onChange = (e) => {
@@ -68,43 +78,73 @@ export const Checkout = () => {
 
           <div className="modal-body">
             {/* Location */}
-            <MDBRow
-              className="d-flex justify-content-center"
-              style={{ marginBottom: "10px" }}
-            >
-              <MDBValidation className="row g-3">
-                <MDBValidationItem feedback="Este campo es requerido" invalid>
-                  <MDBInput
-                    name="location"
-                    className="form-control"
-                    label="Provincia"
-                    required
-                    value={formValue.location}
-                    onChange={onChange}
+            <MDBRow className="d-flex justify-content-center">
+              <MDBValidation className="row m-3">
+                <MapContainer
+                  center={position}
+                  zoom={14}
+                  style={{ height: "20vh", width: "100%" }}
+                >
+                  <TileLayer
+                    attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                   />
-                </MDBValidationItem>
+                  <Marker position={position}>
+                    <Popup>Ubicación</Popup>
+                  </Marker>
+                </MapContainer>
 
-                <MDBValidationItem feedback="Este campo es requerido" invalid>
-                  <MDBInput
-                    name="location"
-                    className="form-control"
-                    label="Cantón"
-                    required
-                    value={formValue.location}
-                    onChange={onChange}
-                  />
-                </MDBValidationItem>
+                <MDBCol>
+                  <MDBValidationItem feedback="Este campo es requerido" invalid>
+                    <MDBInput
+                      name="provincia"
+                      className="form-control m-3"
+                      label="Provincia"
+                      required
+                      value={formValue.provincia}
+                      onChange={onChange}
+                    />
+                  </MDBValidationItem>
+                </MDBCol>
+                <MDBCol>
+                  <MDBValidationItem feedback="Este campo es requerido" invalid>
+                    <MDBInput
+                      name="canton"
+                      className="form-control m-3"
+                      label="Cantón"
+                      required
+                      value={formValue.canton}
+                      onChange={onChange}
+                    />
+                  </MDBValidationItem>
+                </MDBCol>
+                <MDBCol>
+                  <MDBValidationItem feedback="Este campo es requerido" invalid>
+                    <MDBInput
+                      name="distrito"
+                      className="form-control m-3"
+                      label="Distrito"
+                      required
+                      value={formValue.distrito}
+                      onChange={onChange}
+                    />
+                  </MDBValidationItem>
+                </MDBCol>
+              </MDBValidation>
+            </MDBRow>
+            <MDBRow className="d-flex justify-content-center">
+              <MDBValidation className="row">
 
-                <MDBValidationItem feedback="Este campo es requerido" invalid>
-                  <MDBInput
-                    name="location"
-                    className="form-control"
-                    label="Distrito"
-                    required
-                    value={formValue.location}
-                    onChange={onChange}
-                  />
-                </MDBValidationItem>
+                {/* Calendar */}
+                <MDBCol>
+                  <MDBValidationItem feedback="Este campo es requerido" invalid>
+                    {<Calendar />}
+                  </MDBValidationItem>
+
+                  <MDBValidationItem feedback="Este campo es requerido" invalid>
+                    {<Time />}
+                  </MDBValidationItem>
+                </MDBCol>
 
                 {/* Personal Info */}
                 <MDBCol>
@@ -118,13 +158,11 @@ export const Checkout = () => {
                       onChange={onChange}
                     />
                   </MDBValidationItem>
-                </MDBCol>
 
-                <MDBCol>
                   <MDBValidationItem feedback="Este campo es requerido" invalid>
                     <MDBInput
                       name="phone"
-                      className="form-control"
+                      className="form-control m-3"
                       label="Teléfono"
                       required
                       value={formValue.phone}
@@ -176,6 +214,44 @@ export const Checkout = () => {
         </div>
       </div>
     </div>
+  );
+};
+
+const Time = () => {
+  const [startDate, setStartDate] = useState(null);
+  return (
+    <DatePicker
+      customInput={<MDBInput label="Hora" className="m-3" />}
+      selected={startDate}
+      onChange={(date) => setStartDate(date)}
+      showTimeSelect
+      showTimeSelectOnly
+      timeIntervals={30}
+      timeCaption="Hora"
+      dateFormat="h:mm aa"
+      timeFormat="h:mm aa"
+      //placeholderText="Hora"
+    />
+  );
+};
+
+const Calendar = () => {
+  registerLocale("es", es);
+  const [startDate, setStartDate] = useState(null);
+  return (
+    <DatePicker
+      customInput={<MDBInput label="Fecha" />}
+      onChange={(date) => setStartDate(date)}
+      //showTimeSelect
+      // timeFormat="h:mm aa"
+      // timeIntervals={30}
+      timeCaption="Hora"
+      dateFormat="d MMMM, yyyy"
+      locale={"es"}
+      //placeholderText="Fecha y Hora"
+      selected={startDate}
+      minDate={subDays(new Date(), 0)}
+    />
   );
 };
 

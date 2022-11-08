@@ -30,55 +30,45 @@ export const NavbarUi = () => {
     dispatch(cartUiActions.toggle());
   };
 
-
-  // d-flex w-auto mb-3"
-
   return (
-    <MDBNavbar expand="lg" dark bgColor="black">
-      <Link to={'home/members'}>
-        <div className="navbar-collapse collapse">
-          <i className="nav-item nav-link">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-black">
+      
+      <div className="container-fluid">
+
+        <div style={{marginLeft: "4%"}}>
+          <Link to={'home/members'}>
             <HiOutlineUserGroup
               style={{
-                position: "relative",
-                left: "60px",
-                width: "30",
-                height: "30",
+                width: "33.5",
+                height: "33.5",
                 color: "white",
                 cursor: "pointer"
               }}
             />
-          </i>
+          </Link>
         </div>
-      </Link>
+        
+        <div className="justify-content-center">
+          <MDBTypography color='white' tag='h3'>{aboutInformation?.Nombre}</MDBTypography>  
+        </div>
 
-      <div className="w-100 d-flex justify-content-center">
-        <MDBTypography color='white' tag='h3'>{aboutInformation?.Nombre}</MDBTypography>  
-      </div>
-      {/* <MDBNavbarBrand className="w-100 d-flex justify-content-cente">Navbar</MDBNavbarBrand> */}
-      {/* <MDBNavbarLink className="ml-auto">
-        <MDBIcon fas icon="shopping-cart" />
-      </MDBNavbarLink> */}
-
-      <div className="navbar-collapse collapse">
-        <i className="nav-item nav-link">
+        <div style={{marginRight: "4%"}}>
           <TbShoppingCart
             style={{
-              position: "relative",
-              right: "60px",
-              width: "30",
-              height: "30",
+              width: "33.5",
+              height: "33.5",
               color: "white",
               cursor: "pointer"
             }}
             onClick={toggleCart}
           />
-        </i>
-        <span className="cart__badge">{totalQuantity}</span>
-        {showCart && <ShoppingCart />}
+          <span className="badge rounded-pill badge-notification bg-danger" style={{fontSize:"0.68rem"}}>{totalQuantity}</span>
+          {showCart && <ShoppingCart />}
+        </div>
+
       </div>
       
-    </MDBNavbar>
+    </nav>
     // <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
     //   <div className='w-100 d-flex justify-content-center'>
     //     { aboutInformation?.Nombre }

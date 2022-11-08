@@ -2,6 +2,7 @@ import { MDBTypography } from "mdb-react-ui-kit";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { cartActions } from "../../../store/shoppingCart/index";
+import toast, { Toaster } from 'react-hot-toast';
 
 export const Service = ({ data }) => {
   const { services } = useSelector((state) => state.services);
@@ -37,7 +38,9 @@ export const Service = ({ data }) => {
 
   return (
     <>
+    
       <div style={{ position: 'sticky', top: '0', zIndex: 900, backgroundcolor: 'white', height: '30px', padding: '2rem 2rem' }}>
+        <Toaster/>
         <input style={{
           borderradius: '10px', height: '30px',
           border: '2.5px solid #000000',
@@ -63,7 +66,8 @@ export const Service = ({ data }) => {
                 </p>
                 <br />
                 <button style={{ background: 'black', float: 'right' }} className="btn btn-primary"
-                  onClick={() => { addToCart(service.id, service.nombre, service.precio) }}>
+                  onClick={() => { addToCart(service.id, service.nombre, service.precio),
+                                  toast.success('Añadido al carrito!') }}>
                   Añadir al carrito
                 </button>
               </div>

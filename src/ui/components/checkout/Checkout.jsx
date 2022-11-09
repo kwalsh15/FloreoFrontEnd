@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { cartActions } from "../../../store/shoppingCart/index";
-import { cartUiActions } from "../../../store/shoppingCart/index";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale, setDefaultLocale } from "react-datepicker";
+import { setCollectionData } from "../../../helpers/setCollectionData";
 import es from "date-fns/locale/es";
 import { subDays } from "date-fns";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+import { setOrder } from "../../../store/checkout/index";
 import {
   MDBIcon,
   MDBInput,
@@ -27,6 +28,12 @@ export const Checkout = () => {
   const cartItems = useSelector((state) => state.cart.cartItems);
   const totalAmount = useSelector((state) => state.cart.totalAmount);
 
+  registerLocale("es", es);
+  const [startDate, setStartDate] = useState(null);
+  const [startTime, setStartTime] = useState(null);
+
+  const { orders } = useSelector((state) => state.orders);
+
   const deleteCart = () => {
     dispatch(cartActions.deleteCart());
   };
@@ -37,10 +44,28 @@ export const Checkout = () => {
     provincia: "",
     canton: "",
     distrito: "",
+    date: "",
+    time: "",
   });
 
   const onChange = (e) => {
     setFormValue({ ...formValue, [e.target.name]: e.target.value });
+  };
+
+  const handleForm = () => {
+    const newPurchase = {
+      nombre: formValue.name,
+      telefono: formValue.phone,
+      provincia: formValue.provincia,
+      canton: formValue.canton,
+      distrito: formValue.distrito,
+      fecha: formValue.date,
+      hora: formValue.time,
+    };
+    setCollectionData("Pedidos", newPurchase);
+    dispatch(setOrder([...orders, newPurchase]));
+    // formValue = {name: '', email: ''};
+    // Swal.fire('Compra exitosa', 'Te has subscribido al boletín informativo de Pupilos', 'success');
   };
 
   return (
@@ -78,6 +103,7 @@ export const Checkout = () => {
 
           <div className="modal-body">
             {/* Location */}
+
             <MDBRow className="d-flex justify-content-center">
               <MDBValidation className="row m-3">
                 <MapContainer
@@ -134,15 +160,49 @@ export const Checkout = () => {
             </MDBRow>
             <MDBRow className="d-flex justify-content-center">
               <MDBValidation className="row">
-
                 {/* Calendar */}
                 <MDBCol>
                   <MDBValidationItem feedback="Este campo es requerido" invalid>
-                    {<Calendar />}
+                    <DatePicker
+                      customInput={
+                        <MDBInput
+                          name="date"
+                          label="Fecha"
+                          className="form-control"
+                          value={formValue.date}
+                        />
+                      }
+                      onChange={(date) => setStartDate(date)}
+                      //showTimeSelect
+                      // timeFormat="h:mm aa"
+                      // timeIntervals={30}
+                      timeCaption="Hora"
+                      dateFormat="d MMMM, yyyy"
+                      locale={"es"}
+                      selected={startDate}
+                      minDate={subDays(new Date(), 0)}
+                    />
                   </MDBValidationItem>
 
                   <MDBValidationItem feedback="Este campo es requerido" invalid>
-                    {<Time />}
+                    <DatePicker
+                      customInput={
+                        <MDBInput
+                          name="time"
+                          label="Hora"
+                          className="form-control m-3"
+                          value={formValue.time}
+                        />
+                      }
+                      selected={startTime}
+                      onChange={(date) => setStartTime(date)}
+                      showTimeSelect
+                      showTimeSelectOnly
+                      timeIntervals={30}
+                      timeCaption="Hora"
+                      dateFormat="h:mm aa"
+                      timeFormat="h:mm aa"
+                    />
                   </MDBValidationItem>
                 </MDBCol>
 
@@ -206,7 +266,7 @@ export const Checkout = () => {
             <button
               type="button"
               className="btn btn-outline-success"
-              onClick={deleteCart}
+              onClick={() => { deleteCart(), handleForm()}}
             >
               Ordenar Por WhatsApp
             </button>
@@ -217,43 +277,45 @@ export const Checkout = () => {
   );
 };
 
-const Time = () => {
-  const [startDate, setStartDate] = useState(null);
-  return (
-    <DatePicker
-      customInput={<MDBInput label="Hora" className="m-3" />}
-      selected={startDate}
-      onChange={(date) => setStartDate(date)}
-      showTimeSelect
-      showTimeSelectOnly
-      timeIntervals={30}
-      timeCaption="Hora"
-      dateFormat="h:mm aa"
-      timeFormat="h:mm aa"
-      //placeholderText="Hora"
-    />
-  );
-};
+// const Time = () => {
+//   const [startDate, setStartDate] = useState(null);
+//   return (
+//     <DatePicker
+//       customInput={
+//         <MDBInput label="Hora" className="m-3" value={formValue.time} />
+//       }
+//       selected={startDate}
+//       onChange={(date) => setStartDate(date)}
+//       showTimeSelect
+//       showTimeSelectOnly
+//       timeIntervals={30}
+//       timeCaption="Hora"
+//       dateFormat="h:mm aa"
+//       timeFormat="h:mm aa"
+//       //placeholderText="Hora"
+//     />
+//   );
+// };
 
-const Calendar = () => {
-  registerLocale("es", es);
-  const [startDate, setStartDate] = useState(null);
-  return (
-    <DatePicker
-      customInput={<MDBInput label="Fecha" />}
-      onChange={(date) => setStartDate(date)}
-      //showTimeSelect
-      // timeFormat="h:mm aa"
-      // timeIntervals={30}
-      timeCaption="Hora"
-      dateFormat="d MMMM, yyyy"
-      locale={"es"}
-      //placeholderText="Fecha y Hora"
-      selected={startDate}
-      minDate={subDays(new Date(), 0)}
-    />
-  );
-};
+// const Calendar = () => {
+//   registerLocale("es", es);
+//   const [startDate, setStartDate] = useState(null);
+//   return (
+//     <DatePicker
+//       customInput={<MDBInput label="Fecha" value={formValue.date} />}
+//       onChange={(date) => setStartDate(date)}
+//       //showTimeSelect
+//       // timeFormat="h:mm aa"
+//       // timeIntervals={30}
+//       timeCaption="Hora"
+//       dateFormat="d MMMM, yyyy"
+//       locale={"es"}
+//       //placeholderText="Fecha y Hora"
+//       selected={startDate}
+//       minDate={subDays(new Date(), 0)}
+//     />
+//   );
+// };
 
 const Tr = (props) => {
   const { nombre, totalPrice } = props.item;

@@ -7,6 +7,7 @@ import { serviceSlice } from './service/serviceSlice';
 import { membersSlice } from './members/membersSlice';
 import { cartSlice } from "./shoppingCart";
 import { cartUiSlice } from "./shoppingCart";
+import { checkoutSlice } from './checkout';
 
 
 export const store = configureStore({
@@ -18,6 +19,7 @@ export const store = configureStore({
     services: serviceSlice.reducer,
     members: membersSlice.reducer,
     cartUi: cartUiSlice.reducer,
-    cart: cartSlice.reducer
+    cart: cartSlice.reducer,
+    orders: checkoutSlice.reducer
   },
 });

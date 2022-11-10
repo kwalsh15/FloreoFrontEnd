@@ -78,34 +78,38 @@ export const Checkout = () => {
       aria-hidden="true"
     >
       <div className="modal-dialog modal-dialog-centered" role="document">
-        <div className="modal-content">
-          <div className="modal-header">
-            <div className="title">
-              <h5 className="modal-title" id="exampleModalLongTitle">
-                Detalles de la orden
-              </h5>
+        <MDBValidation
+          className="row"
+          onSubmit={() => {
+            deleteCart(), handleForm();
+          }}
+        >
+          <div className="modal-content">
+            <div className="modal-header">
+              <div className="title">
+                <h5 className="modal-title" id="exampleModalLongTitle">
+                  Detalles de la orden
+                </h5>
+              </div>
+              <div className="close_btn">
+                <MDBBtn
+                  outline
+                  floating
+                  border="none"
+                  type="button"
+                  color="dark"
+                  className="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <MDBIcon fas icon="times" />
+                </MDBBtn>
+              </div>
             </div>
-            <div className="close_btn">
-              <MDBBtn
-                outline
-                floating
-                border="none"
-                type="button"
-                color="dark"
-                className="close"
-                data-dismiss="modal"
-                aria-label="Close"
-              >
-                <MDBIcon fas icon="times" />
-              </MDBBtn>
-            </div>
-          </div>
 
-          <div className="modal-body">
-            {/* Location */}
-
-            <MDBRow className="d-flex justify-content-center">
-              <MDBValidation className="row m-3">
+            <div className="modal-body">
+              {/* Location */}
+              <MDBRow className="d-flex justify-content-center">
                 <MapContainer
                   center={position}
                   zoom={14}
@@ -156,52 +160,31 @@ export const Checkout = () => {
                     />
                   </MDBValidationItem>
                 </MDBCol>
-              </MDBValidation>
-            </MDBRow>
-            <MDBRow className="d-flex justify-content-center">
-              <MDBValidation className="row">
+              </MDBRow>
+              <MDBRow className="d-flex justify-content-center">
                 {/* Calendar */}
                 <MDBCol>
                   <MDBValidationItem feedback="Este campo es requerido" invalid>
-                    <DatePicker
-                      customInput={
-                        <MDBInput
-                          name="date"
-                          label="Fecha"
-                          className="form-control"
-                          value={formValue.date}
-                        />
-                      }
-                      onChange={(date) => setStartDate(date)}
-                      //showTimeSelect
-                      // timeFormat="h:mm aa"
-                      // timeIntervals={30}
-                      timeCaption="Hora"
-                      dateFormat="d MMMM, yyyy"
-                      locale={"es"}
-                      selected={startDate}
-                      minDate={subDays(new Date(), 0)}
+                    <MDBInput
+                      type="date"
+                      min={new Date().toLocaleDateString("en-CA")}
+                      name="date"
+                      label="Fecha"
+                      required
+                      className="form-control"
+                      value={formValue.date}
+                      onChange={onChange}
                     />
                   </MDBValidationItem>
 
                   <MDBValidationItem feedback="Este campo es requerido" invalid>
-                    <DatePicker
-                      customInput={
-                        <MDBInput
-                          name="time"
-                          label="Hora"
-                          className="form-control m-3"
-                          value={formValue.time}
-                        />
-                      }
-                      selected={startTime}
-                      onChange={(date) => setStartTime(date)}
-                      showTimeSelect
-                      showTimeSelectOnly
-                      timeIntervals={30}
-                      timeCaption="Hora"
-                      dateFormat="h:mm aa"
-                      timeFormat="h:mm aa"
+                    <MDBInput
+                      name="name"
+                      className="form-control m-3"
+                      label="Nombre"
+                      required
+                      value={formValue.name}
+                      onChange={onChange}
                     />
                   </MDBValidationItem>
                 </MDBCol>
@@ -210,11 +193,12 @@ export const Checkout = () => {
                 <MDBCol>
                   <MDBValidationItem feedback="Este campo es requerido" invalid>
                     <MDBInput
-                      name="name"
-                      className="form-control"
-                      label="Nombre"
+                      type="time"
+                      name="time"
+                      label="Hora"
                       required
-                      value={formValue.name}
+                      className="form-control"
+                      value={formValue.time}
                       onChange={onChange}
                     />
                   </MDBValidationItem>
@@ -230,48 +214,44 @@ export const Checkout = () => {
                     />
                   </MDBValidationItem>
                 </MDBCol>
-              </MDBValidation>
-            </MDBRow>
+              </MDBRow>
 
-            {/* Items */}
-            <div className="items">
-              <h5>Servicios solicitados</h5>
-              <ul className="list-group list-group-flush">
-                <li className="list-group-item">
-                  {cartItems.map((item) => (
-                    <Tr item={item} key={item.id} />
-                  ))}
-                </li>
-                <li className="list-group-item">
-                  <div className="d-flex justify-content-between align-items-center">
-                    <b>Total a pagar:</b>
-                    <b>
-                      <span>₡{totalAmount}</span>
-                    </b>
-                  </div>
-                </li>
-              </ul>
+              {/* Items */}
+              <div className="items">
+                <h5>Servicios solicitados</h5>
+                <ul className="list-group list-group-flush">
+                  <li className="list-group-item">
+                    {cartItems.map((item) => (
+                      <Tr item={item} key={item.id} />
+                    ))}
+                  </li>
+                  <li className="list-group-item">
+                    <div className="d-flex justify-content-between align-items-center">
+                      <b>Total a pagar:</b>
+                      <b>
+                        <span>₡{totalAmount}</span>
+                      </b>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Footer buttons */}
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-outline-danger"
+                data-dismiss="modal"
+              >
+                Cancelar
+              </button>
+              <button type="submit" className="btn btn-outline-success">
+                Ordenar Por WhatsApp
+              </button>
             </div>
           </div>
-
-          {/* Footer buttons */}
-          <div className="modal-footer">
-            <button
-              type="button"
-              className="btn btn-outline-danger"
-              data-dismiss="modal"
-            >
-              Cancelar
-            </button>
-            <button
-              type="button"
-              className="btn btn-outline-success"
-              onClick={() => { deleteCart(), handleForm()}}
-            >
-              Ordenar Por WhatsApp
-            </button>
-          </div>
-        </div>
+        </MDBValidation>
       </div>
     </div>
   );

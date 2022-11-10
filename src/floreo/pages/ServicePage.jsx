@@ -2,7 +2,8 @@
 import { MDBNavbar, MDBTypography } from 'mdb-react-ui-kit';
 import { useLocation } from 'react-router-dom';
 import { Service } from '../../ui/components';
-
+import { IoIosArrowBack } from 'react-icons/io';
+import { Link } from "react-router-dom";
 export const ServicePage = () => {
   const location = useLocation();
   return (
@@ -13,6 +14,9 @@ export const ServicePage = () => {
         </div>
       </MDBNavbar>
       <br />
+      <Link to={'/home'}>
+        <button className="btn"><IoIosArrowBack size={'35'} /></button>
+      </Link>
       <div>
         <Service data={location.state} />
       </div>

@@ -10,6 +10,7 @@ import { subDays } from "date-fns";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { setOrder } from "../../../store/checkout/index";
+import Select from 'react-select'
 import {
   MDBIcon,
   MDBInput,
@@ -18,6 +19,11 @@ import {
   MDBBtn,
   MDBValidation,
   MDBValidationItem,
+  MDBDropdown,
+  MDBDropdownMenu,
+  MDBDropdownItem,
+  MDBDropdownToggle,
+  MDBContainer,
 } from "mdb-react-ui-kit";
 
 import "./checkout.css";
@@ -46,6 +52,8 @@ export const Checkout = () => {
     distrito: "",
     date: "",
     time: "",
+    exactLocation: "",
+    payment: ""
   });
 
   const onChange = (e) => {
@@ -61,12 +69,20 @@ export const Checkout = () => {
       distrito: formValue.distrito,
       fecha: formValue.date,
       hora: formValue.time,
+      pago: formValue.payment
     };
     setCollectionData("Pedidos", newPurchase);
     dispatch(setOrder([...orders, newPurchase]));
     // formValue = {name: '', email: ''};
     // Swal.fire('Compra exitosa', 'Te has subscribido al boletín informativo de Pupilos', 'success');
   };
+
+  const [userChoice, setUserChoice] = useState("")
+
+  const options = [
+    { value: 'Sinpe', label: 'Sinpe' },
+    { value: 'Efectivo', label: 'Efectivo' },
+  ]
 
   return (
     <div
@@ -79,7 +95,6 @@ export const Checkout = () => {
     >
       <div className="modal-dialog modal-dialog-centered" role="document">
         <MDBValidation
-          className="row"
           onSubmit={() => {
             deleteCart(), handleForm();
           }}
@@ -109,7 +124,7 @@ export const Checkout = () => {
 
             <div className="modal-body">
               {/* Location */}
-              <MDBRow className="d-flex justify-content-center">
+              <MDBRow className="d-flex justify-content-center g-3">
                 <MapContainer
                   center={position}
                   zoom={14}
@@ -124,11 +139,11 @@ export const Checkout = () => {
                   </Marker>
                 </MapContainer>
 
-                <MDBCol>
+                <MDBCol md="4">
                   <MDBValidationItem feedback="Este campo es requerido" invalid>
                     <MDBInput
                       name="provincia"
-                      className="form-control m-3"
+                      className="form-control"
                       label="Provincia"
                       required
                       value={formValue.provincia}
@@ -136,11 +151,11 @@ export const Checkout = () => {
                     />
                   </MDBValidationItem>
                 </MDBCol>
-                <MDBCol>
+                <MDBCol md="4">
                   <MDBValidationItem feedback="Este campo es requerido" invalid>
                     <MDBInput
                       name="canton"
-                      className="form-control m-3"
+                      className="form-control"
                       label="Cantón"
                       required
                       value={formValue.canton}
@@ -148,11 +163,11 @@ export const Checkout = () => {
                     />
                   </MDBValidationItem>
                 </MDBCol>
-                <MDBCol>
+                <MDBCol md="4">
                   <MDBValidationItem feedback="Este campo es requerido" invalid>
                     <MDBInput
                       name="distrito"
-                      className="form-control m-3"
+                      className="form-control"
                       label="Distrito"
                       required
                       value={formValue.distrito}
@@ -160,10 +175,19 @@ export const Checkout = () => {
                     />
                   </MDBValidationItem>
                 </MDBCol>
-              </MDBRow>
-              <MDBRow className="d-flex justify-content-center">
-                {/* Calendar */}
-                <MDBCol>
+
+                <MDBValidationItem feedback="Este campo es requerido" invalid>
+                  <MDBInput
+                    name="exactLocation"
+                    className="form-control"
+                    label="Señas"
+                    required
+                    value={formValue.exactLocation}
+                    onChange={onChange}
+                  />
+                </MDBValidationItem>
+
+                <MDBCol md="4">
                   <MDBValidationItem feedback="Este campo es requerido" invalid>
                     <MDBInput
                       type="date"
@@ -176,21 +200,9 @@ export const Checkout = () => {
                       onChange={onChange}
                     />
                   </MDBValidationItem>
-
-                  <MDBValidationItem feedback="Este campo es requerido" invalid>
-                    <MDBInput
-                      name="name"
-                      className="form-control m-3"
-                      label="Nombre"
-                      required
-                      value={formValue.name}
-                      onChange={onChange}
-                    />
-                  </MDBValidationItem>
                 </MDBCol>
 
-                {/* Personal Info */}
-                <MDBCol>
+                <MDBCol md="4">
                   <MDBValidationItem feedback="Este campo es requerido" invalid>
                     <MDBInput
                       type="time"
@@ -202,11 +214,47 @@ export const Checkout = () => {
                       onChange={onChange}
                     />
                   </MDBValidationItem>
+                </MDBCol>
 
+                <MDBCol md="4">
+
+                  <MDBValidationItem feedback="Este campo es requerido" invalid>
+
+
+
+                    <Select
+                      options={[
+                        { value: 'Sinpe', label: 'Sinpe' },
+                        { value: 'Efectivo', label: 'Efectivo' },
+                      ]}
+                      placeholder="Pago"
+
+                    />
+
+
+                  </MDBValidationItem>
+                </MDBCol>
+
+
+                <MDBCol md="6">
+                  <MDBValidationItem feedback="Este campo es requerido" invalid>
+                    <MDBInput
+                      name="name"
+                      className="form-control"
+                      label="Nombre"
+                      required
+                      value={formValue.name}
+                      onChange={onChange}
+                    />
+                  </MDBValidationItem>
+                </MDBCol>
+
+                {/* Personal Info */}
+                <MDBCol md="6">
                   <MDBValidationItem feedback="Este campo es requerido" invalid>
                     <MDBInput
                       name="phone"
-                      className="form-control m-3"
+                      className="form-control"
                       label="Teléfono"
                       required
                       value={formValue.phone}
@@ -215,6 +263,7 @@ export const Checkout = () => {
                   </MDBValidationItem>
                 </MDBCol>
               </MDBRow>
+
 
               {/* Items */}
               <div className="items">

@@ -84,7 +84,7 @@ export const Footer = () => {
               Teléfono:
             </MDBCol>
             <MDBCol size="6" sm="3">
-              { aboutInformation?.Telefono }
+              { "+506 " + aboutInformation?.Telefono }
             </MDBCol>
             <div className="w-100"></div>
             <MDBCol size="6" sm="3">

@@ -1,16 +1,23 @@
 import React, { useState } from "react";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  useMapEvents,
+} from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+import L from "leaflet";
+import icon from "leaflet/dist/images/marker-icon.png";
+import iconShadow from "leaflet/dist/images/marker-shadow.png";
+
 import { useSelector, useDispatch } from "react-redux";
 import { cartActions } from "../../../store/shoppingCart/index";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { registerLocale, setDefaultLocale } from "react-datepicker";
+import { registerLocale } from "react-datepicker";
 import { setCollectionData } from "../../../helpers/setCollectionData";
 import es from "date-fns/locale/es";
-import { subDays } from "date-fns";
-import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
-import "leaflet/dist/leaflet.css";
 import { setOrder } from "../../../store/checkout/index";
-import Select from 'react-select'
+import Select from "react-select";
 import {
   MDBIcon,
   MDBInput,
@@ -19,24 +26,26 @@ import {
   MDBBtn,
   MDBValidation,
   MDBValidationItem,
-  MDBDropdown,
-  MDBDropdownMenu,
-  MDBDropdownItem,
-  MDBDropdownToggle,
-  MDBContainer,
 } from "mdb-react-ui-kit";
 
 import "./checkout.css";
 
+// mapa
+let DefaultIcon = L.icon({
+  iconUrl: icon,
+  shadowUrl: iconShadow,
+});
+
+L.Marker.prototype.options.icon = DefaultIcon;
+
 export const Checkout = () => {
-  const position = [10.32322207586839, -84.43113439600504];
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.cartItems);
   const totalAmount = useSelector((state) => state.cart.totalAmount);
 
+  const { active: aboutInformation } = useSelector((state) => state.section);
+
   registerLocale("es", es);
-  const [startDate, setStartDate] = useState(null);
-  const [startTime, setStartTime] = useState(null);
 
   const { orders } = useSelector((state) => state.orders);
 
@@ -53,36 +62,76 @@ export const Checkout = () => {
     date: "",
     time: "",
     exactLocation: "",
-    payment: ""
+    payment: "",
   });
 
   const onChange = (e) => {
     setFormValue({ ...formValue, [e.target.name]: e.target.value });
   };
 
+  const onDataChange = (value, action) => {
+    setFormValue({ ...formValue, [action.name]: value.value });
+  };
+
   const handleForm = () => {
     const newPurchase = {
       nombre: formValue.name,
       telefono: formValue.phone,
+      fecha: formValue.date,
+      hora: formValue.time,
+      pago: formValue.payment,
       provincia: formValue.provincia,
       canton: formValue.canton,
       distrito: formValue.distrito,
-      fecha: formValue.date,
-      hora: formValue.time,
-      pago: formValue.payment
+      direccion: formValue.exactLocation,
+      ubicacion: [ position.lat , position.lng ],
+      servicios: cartItems.map((item) => item=(item.nombre+" - "+"₡"+item.precio)),
+      total: totalAmount,
+      estado: "pendiente",
     };
+
+    const message = encodeURIComponent(
+      `${"NUEVO PEDIDO"}
+      \r${"Nombre: " + formValue.name}
+      \r${"Teléfono: " + formValue.phone}
+      \r${"Fecha: " + formValue.date}
+      \r${"Hora: " + formValue.time}
+      \r${"Provincia: " + formValue.provincia}
+      \r${"Cantón: " + formValue.canton}
+      \r${"Distrito: " + formValue.distrito}
+      \r${"Dirección: " + formValue.exactLocation}
+      \r${"Estado: " + "pendiente"}
+      \r${"Pago: " + formValue.payment}
+      \r${"Precio total: " + "₡" + totalAmount}
+      \r${"Servicios solicitados: \n" + cartItems.map((item) => item=(item.nombre+" - "+"₡"+item.precio+'\n'))}`
+    );
+
+    const phone = "506"+aboutInformation?.Telefono;
+
     setCollectionData("Pedidos", newPurchase);
     dispatch(setOrder([...orders, newPurchase]));
+    window.open(`https://api.whatsapp.com/send?phone=${phone}&text=${message}`);
     // formValue = {name: '', email: ''};
     // Swal.fire('Compra exitosa', 'Te has subscribido al boletín informativo de Pupilos', 'success');
   };
 
-  const [userChoice, setUserChoice] = useState("")
-
   const options = [
-    { value: 'Sinpe', label: 'Sinpe' },
-    { value: 'Efectivo', label: 'Efectivo' },
-  ]
+    { value: "Sinpe", label: "Sinpe" },
+    { value: "Efectivo", label: "Efectivo" },
+  ];
+
+  // mapa
+  const [position, setPosition] = useState(null);
+  // Events
+  const HandleClickMap = () => {
+    const map = useMapEvents({
+      click(e) {
+        setPosition(e.latlng);
+      },
+    });
+
+    return position == null ? null : <Marker position={position}></Marker>;
+  };
 
   return (
     <div
@@ -125,18 +174,19 @@ export const Checkout = () => {
             <div className="modal-body">
               {/* Location */}
               <MDBRow className="d-flex justify-content-center g-3">
+                <h6>Seleccione la ubicación:</h6>
                 <MapContainer
-                  center={position}
-                  zoom={14}
-                  style={{ height: "20vh", width: "100%" }}
+                  style={{ width: "95%", height: "30vh" }}
+                  center={[10.32328, -84.431006]}
+                  zoom={15}
+                  scrollWheelZoom={true}
                 >
                   <TileLayer
-                    attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                    url="https://{s}.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png"
                   />
-                  <Marker position={position}>
-                    <Popup>Ubicación</Popup>
-                  </Marker>
+
+                  <HandleClickMap />
                 </MapContainer>
 
                 <MDBCol md="4">
@@ -175,7 +225,6 @@ export const Checkout = () => {
                     />
                   </MDBValidationItem>
                 </MDBCol>
-
                 <MDBValidationItem feedback="Este campo es requerido" invalid>
                   <MDBInput
                     name="exactLocation"
@@ -186,7 +235,6 @@ export const Checkout = () => {
                     onChange={onChange}
                   />
                 </MDBValidationItem>
-
                 <MDBCol md="4">
                   <MDBValidationItem feedback="Este campo es requerido" invalid>
                     <MDBInput
@@ -201,7 +249,6 @@ export const Checkout = () => {
                     />
                   </MDBValidationItem>
                 </MDBCol>
-
                 <MDBCol md="4">
                   <MDBValidationItem feedback="Este campo es requerido" invalid>
                     <MDBInput
@@ -215,27 +262,19 @@ export const Checkout = () => {
                     />
                   </MDBValidationItem>
                 </MDBCol>
-
                 <MDBCol md="4">
-
                   <MDBValidationItem feedback="Este campo es requerido" invalid>
-
-
-
                     <Select
-                      options={[
-                        { value: 'Sinpe', label: 'Sinpe' },
-                        { value: 'Efectivo', label: 'Efectivo' },
-                      ]}
+                      name="payment"
                       placeholder="Pago"
-
+                      value={options.find(
+                        (obj) => obj.value.value === formValue.payment
+                      )}
+                      options={options}
+                      onChange={onDataChange}
                     />
-
-
                   </MDBValidationItem>
                 </MDBCol>
-
-
                 <MDBCol md="6">
                   <MDBValidationItem feedback="Este campo es requerido" invalid>
                     <MDBInput
@@ -248,7 +287,6 @@ export const Checkout = () => {
                     />
                   </MDBValidationItem>
                 </MDBCol>
-
                 {/* Personal Info */}
                 <MDBCol md="6">
                   <MDBValidationItem feedback="Este campo es requerido" invalid>
@@ -263,7 +301,6 @@ export const Checkout = () => {
                   </MDBValidationItem>
                 </MDBCol>
               </MDBRow>
-
 
               {/* Items */}
               <div className="items">
@@ -305,46 +342,6 @@ export const Checkout = () => {
     </div>
   );
 };
-
-// const Time = () => {
-//   const [startDate, setStartDate] = useState(null);
-//   return (
-//     <DatePicker
-//       customInput={
-//         <MDBInput label="Hora" className="m-3" value={formValue.time} />
-//       }
-//       selected={startDate}
-//       onChange={(date) => setStartDate(date)}
-//       showTimeSelect
-//       showTimeSelectOnly
-//       timeIntervals={30}
-//       timeCaption="Hora"
-//       dateFormat="h:mm aa"
-//       timeFormat="h:mm aa"
-//       //placeholderText="Hora"
-//     />
-//   );
-// };
-
-// const Calendar = () => {
-//   registerLocale("es", es);
-//   const [startDate, setStartDate] = useState(null);
-//   return (
-//     <DatePicker
-//       customInput={<MDBInput label="Fecha" value={formValue.date} />}
-//       onChange={(date) => setStartDate(date)}
-//       //showTimeSelect
-//       // timeFormat="h:mm aa"
-//       // timeIntervals={30}
-//       timeCaption="Hora"
-//       dateFormat="d MMMM, yyyy"
-//       locale={"es"}
-//       //placeholderText="Fecha y Hora"
-//       selected={startDate}
-//       minDate={subDays(new Date(), 0)}
-//     />
-//   );
-// };
 
 const Tr = (props) => {
   const { nombre, totalPrice } = props.item;

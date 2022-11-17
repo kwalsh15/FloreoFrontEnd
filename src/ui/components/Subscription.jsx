@@ -71,9 +71,8 @@ return (
             <MDBInput
               contrast
               name='name'
-              className='form-control'
+              className='form-control mb-4'
               label="Nombre y apellidos"
-              className="mb-4"
               required
               value={formValue.name}
               onChange={onChange}
@@ -86,10 +85,9 @@ return (
             <MDBInput
               contrast
               name='email'
-              className='form-control'
+              className='form-control mb-4'
               type="email"
               label="Correo electrónico"
-              className="mb-4"
               required
               value={formValue.email}
               onChange={onChange}

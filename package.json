@@ -1,5 +1,5 @@
 {
-  "homepage": "https://kwalsh15.github.io/FloreoFrontEnd",
+  "homepage": "https://kwalsh15.github.io/FloreoFrontEnd/",
   "name": "floreo-app",
   "private": true,
   "version": "0.0.0",
@@ -9,7 +9,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.6",

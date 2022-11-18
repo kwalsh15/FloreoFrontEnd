@@ -8,7 +8,7 @@ export const CategoriesPage = () => {
     <>
       <MDBNavbar expand="lg" bgColor="black">
         <div className="w-100 d-flex justify-content-center">
-          <MDBTypography color='white' tag='h3'>Categorias</MDBTypography>
+          <MDBTypography color='white' tag='h3'>Categorías</MDBTypography>
         </div>
       </MDBNavbar>
 

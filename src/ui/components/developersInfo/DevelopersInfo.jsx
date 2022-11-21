@@ -45,7 +45,7 @@ export const DevelopersInfo = ({ closeDevelopersModal }) => {
                         </div>
                         <div className="developer">
                             <h5>Full-Stack</h5>
-                            <img src="https://i.stack.imgur.com/34AD2.jpg"/>
+                            <img src="https://media-exp1.licdn.com/dms/image/D4D03AQH4IYWyIyubaQ/profile-displayphoto-shrink_400_400/0/1668994607898?e=1674691200&v=beta&t=iaTccmLX9-TP_44kdomHk6E4kExVvpDVJVRUk7nKcNA" />
                             <p>Luis Castillo</p>
                         </div>
                         <div className="developer">
